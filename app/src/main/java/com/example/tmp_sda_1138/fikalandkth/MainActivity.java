@@ -78,6 +78,37 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    public void educationClick(View view){
+        View mainMenu = findViewById(R.id.mainMenu);
+        View eduMenu = findViewById(R.id.educationMenu);
+        mainMenu.setVisibility(View.INVISIBLE);
+        eduMenu.setVisibility(View.VISIBLE);
+
+    }
+
+    public void languagesClick(View view){
+        View mainMenu = findViewById(R.id.mainMenu);
+        View langMenu = findViewById(R.id.languagesMenu);
+        mainMenu.setVisibility(View.INVISIBLE);
+        langMenu.setVisibility(View.VISIBLE);
+
+    }
+
+    public void jobClick(View view){
+        View mainMenu = findViewById(R.id.mainMenu);
+        View jobMenu = findViewById(R.id.jobMenu);
+        mainMenu.setVisibility(View.INVISIBLE);
+        jobMenu.setVisibility(View.VISIBLE);
+
+    }
+
+    public void housingClick(View view){
+        View mainMenu = findViewById(R.id.mainMenu);
+        View houseMenu = findViewById(R.id.houseMenu);
+        mainMenu.setVisibility(View.INVISIBLE);
+        houseMenu.setVisibility(View.VISIBLE);
+
+    }
 
 
 
