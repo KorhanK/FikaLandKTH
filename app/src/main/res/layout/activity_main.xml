@@ -217,10 +217,12 @@
         android:layout_marginBottom="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
-        android:visibility="visible"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent">
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp">
 
         <Button
             android:id="@+id/educationButton"
@@ -379,13 +381,13 @@
 
     <Button
         android:id="@+id/button16"
-        android:layout_width="40dp"
+        android:layout_width="88dp"
         android:layout_height="48dp"
         android:layout_column="1"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="12dp"
         android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
+        android:layout_marginRight="12dp"
         android:layout_marginTop="8dp"
         android:layout_row="3"
         android:text="S"
@@ -395,7 +397,8 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="@+id/linearLayout"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintVertical_bias="1.0"
+        android:layout_marginStart="8dp" />
 
     <LinearLayout
         android:id="@+id/educationMenu"
@@ -413,7 +416,9 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView"
-        app:layout_constraintVertical_bias="0.0">
+        app:layout_constraintVertical_bias="0.0"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp">
 
         <TextView
             android:id="@+id/techText"
@@ -431,7 +436,9 @@
             android:id="@+id/technicalStudyButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Study Technical Skills" />
+            android:text="Study Technical Skills"
+            android:onClick="technicalEducationClick"
+            />
 
         <TextView
             android:id="@+id/socialText"
@@ -449,7 +456,9 @@
             android:id="@+id/socialStudyButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Study Social Skills" />
+            android:text="Study Social Skills"
+            android:onClick="socialEducationClick"
+            />
 
         <Button
             android:id="@+id/eduToMainButton"
@@ -478,7 +487,9 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView"
-        app:layout_constraintVertical_bias="0.0">
+        app:layout_constraintVertical_bias="0.0"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp">
 
         <TextView
             android:id="@+id/englishText"
@@ -496,13 +507,15 @@
             android:id="@+id/enghlishStudyButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Study English" />
+            android:text="Study English"
+            android:onClick="learnEnglishClick"
+            />
 
         <TextView
             android:id="@+id/swedishText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Social Skills" />
+            android:text="Swedish Level" />
 
         <TextView
             android:id="@+id/swedishNumber"
@@ -514,7 +527,9 @@
             android:id="@+id/swedishStudyButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Study Swedish" />
+            android:text="Study Swedish"
+            android:onClick="learnSwedishClick"
+            />
 
         <Button
             android:id="@+id/langToMainButton"
@@ -543,7 +558,9 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView"
-        app:layout_constraintVertical_bias="0.0">
+        app:layout_constraintVertical_bias="0.0"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp">
 
 
         <Button
@@ -586,7 +603,9 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView"
-        app:layout_constraintVertical_bias="0.0">
+        app:layout_constraintVertical_bias="0.0"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp">
 
 
         <Button
@@ -635,7 +654,9 @@
             android:id="@+id/artButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Art Event" />
+            android:text="Art Event"
+            android:onClick="artClick"
+            />
 
         <TextView
             android:id="@+id/textView3"
@@ -651,7 +672,9 @@
             android:layout_height="wrap_content"
             android:layout_column="0"
             android:layout_row="1"
-            android:text="Concert" />
+            android:text="Concert"
+            android:onClick="concertClick"
+            />
 
         <Button
             android:id="@+id/pubButton"
@@ -659,7 +682,9 @@
             android:layout_height="wrap_content"
             android:layout_column="0"
             android:layout_row="2"
-            android:text="Pub" />
+            android:text="Pub"
+            android:onClick="pubClick"
+            />
 
         <Button
             android:id="@+id/clubButton"
@@ -667,7 +692,9 @@
             android:layout_height="wrap_content"
             android:layout_column="0"
             android:layout_row="3"
-            android:text="Dance Club" />
+            android:text="Dance Club"
+            android:onClick="danceClick"
+            />
 
         <Button
             android:id="@+id/dateButton"
@@ -675,7 +702,9 @@
             android:layout_height="wrap_content"
             android:layout_column="0"
             android:layout_row="4"
-            android:text="Date" />
+            android:text="Date"
+            android:onClick="dateClick"
+            />
 
         <Button
             android:id="@+id/socializeToMainButton"
@@ -851,6 +880,31 @@
             android:textSize="8sp" />
 
     </GridLayout>
+
+    <LinearLayout
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:orientation="vertical"
+        tools:layout_editor_absoluteX="92dp"
+        tools:layout_editor_absoluteY="266dp"
+        android:gravity="center"
+        >
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="TextView"
+            android:textAlignment="center"
+            tools:text="Please enter the number of the friend that you want to date:" />
+
+        <EditText
+            android:id="@+id/dateNumber"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="Enter Here" />
+
+    </LinearLayout>
 
 
 </android.support.constraint.ConstraintLayout>

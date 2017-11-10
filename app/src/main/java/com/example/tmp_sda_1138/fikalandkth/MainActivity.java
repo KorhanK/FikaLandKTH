@@ -4,6 +4,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import org.w3c.dom.Text;
@@ -17,6 +18,17 @@ public class MainActivity extends AppCompatActivity {
     Button socializeButton;
     Button otherButton;
     Button eatButton;
+
+    String clickName;
+
+    EducationMenu educationMenu;
+    LanguagesMenu languagesMenu;
+    JobMenu jobsMenu;
+    HousingMenu housingMenu;
+    SocializeMenu socializeMenu;
+    OtherMenu otherMenuO;
+    BuyMenu buyingMenu;
+
 
     View mainMenu;
     View eduMenu;
@@ -35,11 +47,19 @@ public class MainActivity extends AppCompatActivity {
     TextView playerMonths;
     TextView playerTurns;
     TextView playerPoints;
-    TextView mainText;
+    static TextView mainText;
     String mainString;
+    TextView technicalSkill;
+    TextView socialSkill;
+    TextView swedishSkill;
+    TextView englishSkill;
+
+    EditText dateNumber;
+
 
 
     Player player;
+    Controller controller;
 
 
 
@@ -64,9 +84,10 @@ public class MainActivity extends AppCompatActivity {
         playerPoints = (TextView) findViewById(R.id.playerPoints);
         mainText = (TextView) findViewById(R.id.mainText);
 
+        dateNumber = (EditText) findViewById(R.id.dateNumber);
 
-        player = new Player();
-        Controller controller = new Controller();
+        controller = new Controller();
+        player = controller.getPlayer();
 
         currentView = "main";
         mainMenu = findViewById(R.id.mainMenu);
@@ -78,21 +99,34 @@ public class MainActivity extends AppCompatActivity {
         otherMenu = findViewById(R.id.otherMenu);
         buyMenu = findViewById(R.id.buyMenu);
 
+        technicalSkill = (TextView) findViewById(R.id.techNumber);
+        socialSkill = (TextView) findViewById(R.id.socialNumber);
+        swedishSkill = (TextView) findViewById(R.id.swedishNumber);
+        englishSkill = (TextView) findViewById(R.id.englishNumber);
 
 
-        player.setMoney(1717);
+
+
+
+
 
         updateTopView();
 
     }
 
     /**
-     * Main Screen Player Stats updater
+     * Main and menu screens player stats updater
      */
     public void updateTopView(){
         playerMoney.setText(player.getMoney()+"");
-        playerMonths.setText(player.time.getMonth()+"");
-        playerTurns.setText(player.time.getTurns()+"");
+        playerMonths.setText(player.getTime().getMonth()+"");
+        playerTurns.setText(player.getTime().getTurns()+"");
+        playerMorale.setText(player.getMorale()+"");
+        playerPoints.setText(player.getScore()+"");
+        technicalSkill.setText(player.getTechnicalEducation()+"");
+        socialSkill.setText(player.getSocialEducation()+"");
+        swedishSkill.setText(player.getSwedishLevel()+"");
+        englishSkill.setText(player.getEnglishLevel()+"");
 
     }
 
@@ -211,5 +245,81 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+
+
+    /**
+     * Education Menu redirections
+     * The controller is reached from here
+     */
+
+    public void technicalEducationClick(View view){
+        controller.getTechEducation();
+        updateTopView();
+    }
+
+    public void socialEducationClick(View view){
+        controller.getSocialEducation();
+        updateTopView();
+    }
+    /**
+     * Languages Menu redirections
+     * The controller is reached from here
+     */
+
+
+    public void learnSwedishClick(View view){
+        controller.learnSwedish();
+        updateTopView();
+    }
+
+    public void learnEnglishClick(View view){
+        controller.learnEnglish();
+        updateTopView();
+    }
+
+    public void artClick(View view){
+
+            controller.artClick();
+            updateTopView();
+
+    }
+
+    public void concertClick(View view){
+
+        controller.concertClick();
+        updateTopView();
+
+    }
+
+    public void pubClick(View view){
+
+        controller.pubClick();
+        updateTopView();
+
+    }
+
+    public void danceClick(View view){
+
+        controller.danceClick();
+        updateTopView();
+
+    }
+
+    public void dateClick(View view){
+        controller.dateClick();
+        updateTopView();
+
+    }
+
+
+
+    public static void changeMainText(String text){
+        mainText.setText(text);
+    }
+
+//
+//    public String getClickName() {
+//        return clickName;
+//    }
 }
 

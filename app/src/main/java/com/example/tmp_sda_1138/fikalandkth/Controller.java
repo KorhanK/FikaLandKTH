@@ -14,9 +14,11 @@ class Controller {
     Random random;
 
 
+
     public Controller(){
         player = new Player(20000, 50, 25, 0, 10, 0);
         random = new Random();
+
 
     }
 
@@ -65,13 +67,108 @@ class Controller {
 
 
     public void artClick() {
-        if (canIPayForIt(0)) {
+        int price = 0;
+        if (canIPayForIt(price)) {
+            player.setMoney(player.getMoney() - price);
             moraleBoost(2);
-            if (iGetAnyFriends(20)){
+            if (iGetAnyFriends(15)){
                 int index = random.nextInt(player.getNameList().personNames.size());
                 String friend = player.getNameList().personNames.get(index);
                 player.addFriend(friend);
+                MainActivity.changeMainText("You had some morale and you met "+ friend + ", you are friends now.");
             }
+            else
+                MainActivity.changeMainText("You had some morale but you didn't get any friends.");
         }
+        else
+            MainActivity.changeMainText("You don't have enough money to pay for it.");
     }
+
+
+    public void concertClick() {
+        int price = 1000;
+        if (canIPayForIt(price)) {
+            player.setMoney(player.getMoney() - price);
+            moraleBoost(4);
+            if (iGetAnyFriends(25)){
+                int index = random.nextInt(player.getNameList().personNames.size());
+                String friend = player.getNameList().personNames.get(index);
+                player.addFriend(friend);
+                MainActivity.changeMainText("You had some morale and you met "+ friend + ", you are friends now.");
+            }
+            else
+                MainActivity.changeMainText("You had some morale but you didn't get any friends.");
+        }
+        else
+            MainActivity.changeMainText("You don't have enough money to pay for it.");
+    }
+
+    public void pubClick() {
+        int price = 2500;
+        if (canIPayForIt(price)) {
+            player.setMoney(player.getMoney() - price);
+            moraleBoost(7);
+            if (iGetAnyFriends(35)){
+                int index = random.nextInt(player.getNameList().personNames.size());
+                String friend = player.getNameList().personNames.get(index);
+                player.addFriend(friend);
+                MainActivity.changeMainText("You had some morale and you met "+ friend + ", you are friends now.");
+            }
+            else
+                MainActivity.changeMainText("You had some morale but you didn't get any friends.");
+        }
+        else
+            MainActivity.changeMainText("You don't have enough money to pay for it.");
+    }
+
+    public void danceClick() {
+        int price = 3000;
+        if (canIPayForIt(price)) {
+            player.setMoney(player.getMoney() - price);
+            moraleBoost(10);
+            if (iGetAnyFriends(50)){
+                int index = random.nextInt(player.getNameList().personNames.size());
+                String friend = player.getNameList().personNames.get(index);
+                player.addFriend(friend);
+                MainActivity.changeMainText("You had some morale and you met "+ friend + ", you are friends now.");
+            }
+            else
+                MainActivity.changeMainText("You had some morale but you didn't get any friends.");
+        }
+        else
+            MainActivity.changeMainText("You don't have enough money to pay for it.");
+    }
+
+    public void dateClick() {
+        if (player.friendsSize() > 0){
+            String friendsList = "Who do you want to date?";
+            for (int y = 0; y<player.friendsSize(); y++){
+                String candidate = player.getFriend(y);
+                friendsList = friendsList + (y+1) + "-" +  candidate;
+            }
+            MainActivity.changeMainText(friendsList);
+        }
+        else
+            MainActivity.changeMainText("You must have at least one friend to be able to date.");
+    }
+
+
+
+
+    private boolean iGetAnyFriends(int i) {
+        int percent = random.nextInt(100) + 1;
+        if (percent <= i)
+            return true;
+        else
+            return false;
+    }
+
+    private boolean canIPayForIt(int i) {
+        if ((player.getMoney() - i) < 0)
+            return false;
+        else
+            return true;
+    }
+
+
 }
