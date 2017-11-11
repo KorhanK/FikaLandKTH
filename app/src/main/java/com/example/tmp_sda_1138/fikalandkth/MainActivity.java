@@ -38,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
     View socialMenu;
     View otherMenu;
     View buyMenu;
+    View dateFinalMenu;
 
 
     String currentView;
@@ -98,6 +99,7 @@ public class MainActivity extends AppCompatActivity {
         socialMenu = findViewById(R.id.socializeMenu);
         otherMenu = findViewById(R.id.otherMenu);
         buyMenu = findViewById(R.id.buyMenu);
+        dateFinalMenu = findViewById(R.id.dateFinalMenu);
 
         technicalSkill = (TextView) findViewById(R.id.techNumber);
         socialSkill = (TextView) findViewById(R.id.socialNumber);
@@ -241,6 +243,12 @@ public class MainActivity extends AppCompatActivity {
                 currentView = "other";
                 mainText.setText(mainString);
                 break;
+            case "date":
+                dateFinalMenu.setVisibility(View.INVISIBLE);
+                socialMenu.setVisibility(View.VISIBLE);
+                currentView = "social";
+                mainText.setText("Where do you want to go to socialize?");
+                break;
         }
 
     }
@@ -277,6 +285,12 @@ public class MainActivity extends AppCompatActivity {
         updateTopView();
     }
 
+
+    /**
+     *
+     * Socializing menu button redirections.
+     */
+
     public void artClick(View view){
 
             controller.artClick();
@@ -306,20 +320,79 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void dateClick(View view){
-        controller.dateClick();
+
+        boolean didIhaveAnyFriends = controller.dateClick();
+        if (didIhaveAnyFriends) {
+            socialMenu.setVisibility(View.INVISIBLE);
+            dateFinalMenu.setVisibility(View.VISIBLE);
+            currentView ="date";
+        }
+
         updateTopView();
 
     }
 
+    public void dateFinalClick(View view) {
+        if (dateNumber.getText().length()==0)
+            dateNumber.setError("Please enter a number!");
+        else {
+            int index = Integer.parseInt(dateNumber.getText().toString()) - 1;
+            String name = controller.startToDate(index);
+            if (name == null) {
+                controller.dateClick();
+                String main = mainText.getText().toString();
+                changeMainText("Please Enter A Correct Number This Time! " + main);
+            } else {
+                changeMainText("You started to date " + name + ".");
+                dateFinalMenu.setVisibility(View.INVISIBLE);
+                socialMenu.setVisibility(View.VISIBLE);
+                currentView = "socialize";
+            }
+
+        }
+
+
+    }
+
+
+    /**
+     * Changes the main text bubble's text to @param
+     * @param text
+     */
 
 
     public static void changeMainText(String text){
         mainText.setText(text);
     }
 
-//
-//    public String getClickName() {
-//        return clickName;
-//    }
+    /**
+     * Other Menu Clicks
+     */
+
+    public void getMarried(View view){
+        String name = controller.getMarried();
+        if(name.equals("no")){
+            changeMainText("You are already married or you are not dating anyone!");
+        }
+        else
+            changeMainText("You are now married to " + name + ".");
+        updateTopView();
+    }
+
+    public void haveKids(View view){
+        int howMany = controller.haveKids();
+        if (howMany == -1){
+            changeMainText("You must be married to try to have kids.");
+        }
+        else if (howMany==0){
+            changeMainText("It doesn't work every time. You can try again.");
+        }
+        else if(howMany == 1)
+            changeMainText("You will have a baby. You can already count him/her in the family.");
+        else
+            changeMainText("You will have" + howMany +" baby. You can already count them in the family.");
+
+        updateTopView();
+    }
 }
 
