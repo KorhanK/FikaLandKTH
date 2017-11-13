@@ -1,5 +1,6 @@
 package com.example.tmp_sda_1138.fikalandkth;
 
+import android.opengl.Visibility;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -9,7 +10,12 @@ import android.widget.TextView;
 
 import org.w3c.dom.Text;
 
+import java.util.ArrayList;
+import java.util.Random;
+
 public class MainActivity extends AppCompatActivity {
+
+    Random random;
 
     Button educationButton;
     Button languageButton;
@@ -18,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
     Button socializeButton;
     Button otherButton;
     Button eatButton;
+    Button infoButton;
 
     String clickName;
 
@@ -39,7 +46,9 @@ public class MainActivity extends AppCompatActivity {
     View otherMenu;
     View buyMenu;
     View dateFinalMenu;
-
+    View nameScreen;
+    View topSide;
+    View searchJob;
 
     String currentView;
 
@@ -54,8 +63,13 @@ public class MainActivity extends AppCompatActivity {
     TextView socialSkill;
     TextView swedishSkill;
     TextView englishSkill;
+    TextView playerName;
+    TextView job1;
+    TextView job2;
+    TextView job3;
 
     EditText dateNumber;
+    EditText nameText;
 
 
 
@@ -69,6 +83,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        random = new Random();
+
         educationButton = (Button)findViewById(R.id.educationButton);
         languageButton = (Button) findViewById(R.id.languageButton);
         jobButton = (Button) findViewById(R.id.jobButton);
@@ -76,6 +92,7 @@ public class MainActivity extends AppCompatActivity {
         socializeButton = (Button) findViewById(R.id.socializeButton);
         otherButton = (Button) findViewById(R.id.otherButton);
         eatButton = (Button) findViewById(R.id.eatButton);
+        infoButton = (Button) findViewById(R.id.infoButton);
 
         mainString = "What do you want to do?";
         playerMoney = (TextView) findViewById(R.id.moneyText);
@@ -84,6 +101,7 @@ public class MainActivity extends AppCompatActivity {
         playerTurns =  (TextView) findViewById(R.id.playerTurns);
         playerPoints = (TextView) findViewById(R.id.playerPoints);
         mainText = (TextView) findViewById(R.id.mainText);
+        playerName = (TextView) findViewById(R.id.playerName);
 
         dateNumber = (EditText) findViewById(R.id.dateNumber);
 
@@ -100,6 +118,10 @@ public class MainActivity extends AppCompatActivity {
         otherMenu = findViewById(R.id.otherMenu);
         buyMenu = findViewById(R.id.buyMenu);
         dateFinalMenu = findViewById(R.id.dateFinalMenu);
+        topSide = findViewById(R.id.topSide);
+        searchJob = findViewById(R.id.jobSearch);
+
+        nameScreen = findViewById(R.id.nameScreen);
 
         technicalSkill = (TextView) findViewById(R.id.techNumber);
         socialSkill = (TextView) findViewById(R.id.socialNumber);
@@ -107,9 +129,11 @@ public class MainActivity extends AppCompatActivity {
         englishSkill = (TextView) findViewById(R.id.englishNumber);
 
 
+        nameText = (EditText) findViewById(R.id.nameText);
 
-
-
+        job1 = (TextView) findViewById(R.id.job1);
+        job2 = (TextView) findViewById(R.id.job2);
+        job3 = (TextView) findViewById(R.id.job3);
 
 
         updateTopView();
@@ -129,8 +153,33 @@ public class MainActivity extends AppCompatActivity {
         socialSkill.setText(player.getSocialEducation()+"");
         swedishSkill.setText(player.getSwedishLevel()+"");
         englishSkill.setText(player.getEnglishLevel()+"");
+        playerName.setText(player.getName());
 
     }
+
+    public void startGame(View view){
+        if (nameText.getText().length()==0)
+            nameText.setError("Please enter a number!");
+        else {
+            String name = nameText.getText().toString();
+            controller.player.setName(name);
+            nameScreen.setVisibility(View.INVISIBLE);
+            topSide.setVisibility(View.VISIBLE);
+            mainMenu.setVisibility(View.VISIBLE);
+            infoButton.setVisibility(View.VISIBLE);
+            updateTopView();
+
+        }
+
+    }
+
+
+
+
+
+
+
+
 
     /**
      * Main Menu Buttons
@@ -394,5 +443,131 @@ public class MainActivity extends AppCompatActivity {
 
         updateTopView();
     }
+    public void eat(View view){
+        String status = controller.eat();
+        if (status.equals("already")){
+            changeMainText("You have already eaten this month.");
+        }
+        else if(status.equals("ok")){
+            changeMainText("You ate.");
+        }
+        else if(status.equals("nomoney")){
+            changeMainText("You don't have enough money to eat.");
+        }
+        updateTopView();
+    }
+
+    /**
+     * Buy Menu Clicks
+     */
+
+    public void travelCard(View view){
+        if(controller.buyTravelCard())
+            changeMainText("You now have +1 turns for "+ controller.player.getTravelCardMonths()+" months." );
+        else
+            changeMainText("You can't pay for that.");
+        updateTopView();
+    }
+
+    public void foodMemberShip(View view){
+        if(controller.buyFoodMembership()){
+            changeMainText("You now have food for "+ controller.player.getFoodForMoths() + " months.");
+        }
+        else
+            changeMainText("You can't pay for that.");
+        updateTopView();
+    }
+
+    public void hobbyClick(View view){
+        if (controller.buyHobby())
+            changeMainText("You spent time on your hobbies. You morale increased.");
+        else
+            changeMainText("You can't pay for that!");
+
+        updateTopView();
+    }
+
+    /**
+     * Job Search Menu Clicks
+     */
+    public void arbetsClick(View view){
+        controller.substractTurn();
+        int randomExcuse = random.nextInt(5);
+        switch (randomExcuse){
+            case 0 :
+               changeMainText("Sorry we can't help you, you must help yourself.");
+               break;
+            case 1 :
+                changeMainText("Sorry, it's 13:00 and we are closed. Please come back soon.");
+                break;
+            case 2 :
+                changeMainText("We called you last weekend yelling out of the window, you didn't respond so we deleted you from our database, you don't exist anymore, sorry.");
+                break;
+            case 3 :
+                changeMainText("We will call you soon for a meeting. Maybe.");
+                break;
+            case 4 :
+                changeMainText("We can't help you find a job, you must do it yourself. We are the masters of the Swedish job-market. You want some apples?");
+                break;
+        }
+        updateTopView();
+
+    }
+
+
+    public void searchJob(View view){
+        boolean isEligeable = controller.checkMoraleEligebility();
+        if(isEligeable){
+            jobMenu.setVisibility(View.INVISIBLE);
+            searchJob.setVisibility(View.VISIBLE);
+            ArrayList<String> jobTexts = controller.createThreeJobs();
+            int i=0;
+            job1.setText(jobTexts.get(0));
+            job2.setText(jobTexts.get(1));
+            job3.setText(jobTexts.get(2));
+            changeMainText("Which job do you want to apply to?");
+
+        }
+        else
+            changeMainText("You need to have min.50 morale to apply for a job.");
+
+    }
+
+    public void getJob1(View view){
+        boolean gotTheJob = controller.getJob1();
+        if(gotTheJob)
+            changeMainText("Congratulations you got the job.");
+        else
+            changeMainText("Please check your skills and apply for a job that suits your skills.");
+        searchJob.setVisibility(View.INVISIBLE);
+        jobMenu.setVisibility(View.VISIBLE);
+    }
+
+    public void getJob2(View view){
+        boolean gotTheJob = controller.getJob2();
+        if(gotTheJob)
+            changeMainText("Congratulations you got the job.");
+        else
+            changeMainText("Please check your skills and apply for a job that suits your skills.");
+        searchJob.setVisibility(View.INVISIBLE);
+        jobMenu.setVisibility(View.VISIBLE);
+    }
+
+    public void getJob3(View view){
+        boolean gotTheJob = controller.getJob3();
+        if(gotTheJob)
+            changeMainText("Congratulations you got the job.");
+        else
+            changeMainText("Please check your skills and apply for a job that suits your skills.");
+        searchJob.setVisibility(View.INVISIBLE);
+        jobMenu.setVisibility(View.VISIBLE);
+    }
+
+    public void backJobSearch(View view){
+        searchJob.setVisibility(View.INVISIBLE);
+        jobMenu.setVisibility(View.VISIBLE);
+    }
+
+
 }
 
