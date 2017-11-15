@@ -2,9 +2,6 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://C:\Users\korha\AndroidStudioProjects\FikaLandKTH\FikaLandKTH.iml" filepath="C:\Users\korha\AndroidStudioProjects\FikaLandKTH\FikaLandKTH.iml" />
-      <module fileurl="file://C:\Users\korha\AndroidStudioProjects\FikaLandKTH\app\app.iml" filepath="C:\Users\korha\AndroidStudioProjects\FikaLandKTH\app\app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/FikaLandKTH.iml" filepath="$PROJECT_DIR$/FikaLandKTH.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/FikaLandKTH.iml" filepath="$PROJECT_DIR$/.idea/FikaLandKTH.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>

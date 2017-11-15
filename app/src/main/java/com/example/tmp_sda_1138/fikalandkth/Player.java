@@ -1,4 +1,6 @@
 package com.example.tmp_sda_1138.fikalandkth;
+import android.os.health.HealthStats;
+
 import java.util.ArrayList;
 
 /**
@@ -22,13 +24,29 @@ class Player {
     private House house;
     private int swedishLevel;
     private int englishLevel;
-    private String dating = null;
+   // private String dating = null;
     private int workingForMonths;
     private Time time;
     private ArrayList<String> achievements;
     private NameList nameList;
 
-    public Player(int money, int morale, int luck, int englishLevel, int technicalEducation, int socialEducation) {
+    private String dateName = "no";
+    private String partnerName = "no";
+
+    private int turnNumber = 5;
+
+    private int foodForMoths=0;
+    public int travelCardMonths;
+    private boolean isRentingRoom;
+
+    private int moraleModifier;
+
+    private int turnModifier;
+
+
+
+
+    public Player(int money, int morale, int luck, int englishLevel, int technicalEducation, int socialEducation, int swedishLevel) {
         //super();
         this.setMoney(money);
         this.morale = morale;
@@ -42,6 +60,10 @@ class Player {
         time = new Time(0, 5);
         achievements = new ArrayList<String>();
         nameList = new NameList();
+        travelCardMonths = 0;
+        this.swedishLevel = swedishLevel;
+        this.house = null;
+        this.moraleModifier=-2;
     }
 
     /**
@@ -102,9 +124,7 @@ class Player {
         return numberOfChildren;
     }
 
-    public void setNumberOfChildren(int numberOfChildren) {
-        this.numberOfChildren = numberOfChildren;
-    }
+
 
     public Job getJob() {
         return job;
@@ -170,33 +190,57 @@ class Player {
         this.englishLevel = englishLevel;
     }
 
-    public String getDating() {
-        return dating;
+    public String getPartnerName() {
+        return partnerName;
     }
 
-    public void setDating(String dating) {
-        this.dating = dating;
+    public void setPartnerName(String partnerName) {
+        this.partnerName = partnerName;
     }
 
-    public int getWorkingForMonths() {
-        return workingForMonths;
+    public void setNumberOfChildren(int numberOfChildren) {
+        this.numberOfChildren = numberOfChildren;
     }
 
-    public void setWorkingForMonths(int workingForMonths) {
-        this.workingForMonths = workingForMonths;
+    public int getTurnNumber() {
+        return turnNumber;
     }
 
-    public ArrayList<String> getAchievements() {
-        return achievements;
+    public void setTurnNumber(int turnNumber) {
+        this.turnNumber = turnNumber;
     }
 
-    public void setAchievements(ArrayList<String> achievements) {
-        this.achievements = achievements;
+    public int getFoodForMoths() {
+        return foodForMoths;
+    }
+
+    public void setFoodForMoths(int foodForMoths) {
+        this.foodForMoths = foodForMoths;
+    }
+
+    public int getTravelCardMonths() {
+        return travelCardMonths;
+    }
+
+    public void setTravelCardMonths(int travelCardMonths) {
+        this.travelCardMonths = travelCardMonths;
+    }
+
+    public int getMoraleModifier() {
+        return moraleModifier;
+    }
+
+    public void setMoraleModifier(int moraleModifier) {
+        this.moraleModifier = moraleModifier;
     }
 
     public NameList getNameList() {
         return nameList;
     }
+
+    /**
+     * Friends list methods.
+     */
 
     public void addFriend(String name){
         friends.add(name);
@@ -208,5 +252,25 @@ class Player {
 
     public String getFriend(int index){
         return friends.get(index);
+    }
+
+    public String getDateName() {
+        return dateName;
+    }
+
+    public void removeFriend(int index){
+        friends.remove(index);
+    }
+
+    public void setDateName(String dateName) {
+        this.dateName = dateName;
+    }
+
+    public int getTurnModifier() {
+        return turnModifier;
+    }
+
+    public void setTurnModifier(int turnModifier) {
+        this.turnModifier = turnModifier;
     }
 }
