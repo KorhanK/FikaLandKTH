@@ -1,5 +1,4 @@
 package com.example.tmp_sda_1138.fikalandkth;
-import android.os.health.HealthStats;
 
 import java.util.ArrayList;
 
@@ -12,7 +11,7 @@ class Player {
 
     private int money;
     private int morale;
-    private int luck;
+
 
      boolean isMarried;
     private int numberOfChildren;
@@ -20,7 +19,7 @@ class Player {
     private int technicalEducation;
     private int socialEducation;
     private ArrayList<String> friends;
-    private int score;
+    private int points;
     private House house;
     private int swedishLevel;
     private int englishLevel;
@@ -46,14 +45,14 @@ class Player {
 
 
 
-    public Player(int money, int morale, int luck, int englishLevel, int technicalEducation, int socialEducation, int swedishLevel) {
+    public Player(int money, int morale, int englishLevel, int technicalEducation, int socialEducation, int swedishLevel) {
         //super();
         this.setMoney(money);
         this.morale = morale;
-        this.luck = luck;
+
         this.englishLevel = englishLevel;
         this.isMarried = false;
-        this.score = 0;
+        this.points = 0;
         this.technicalEducation = technicalEducation;
         this.socialEducation = socialEducation;
         friends = new ArrayList<String>();
@@ -104,13 +103,8 @@ class Player {
         this.name = name;
     }
 
-    public int getLuck() {
-        return luck;
-    }
 
-    public void setLuck(int luck) {
-        this.luck = luck;
-    }
+
 
     public boolean isMarried() {
         return isMarried;
@@ -158,12 +152,12 @@ class Player {
         this.friends = friends;
     }
 
-    public int getScore() {
-        return score;
+    public int getPoints() {
+        return points;
     }
 
-    public void setScore(int score) {
-        this.score = score;
+    public void setPoints(int points) {
+        this.points = points;
     }
 
     public House getHouse() {
@@ -273,4 +267,6 @@ class Player {
     public void setTurnModifier(int turnModifier) {
         this.turnModifier = turnModifier;
     }
+
+
 }

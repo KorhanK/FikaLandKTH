@@ -30,8 +30,15 @@ class Controller {
 
 
     public Controller() {
-        player = new Player(200000, 50, 25, 200, 800, 0, 200);
+
         random = new Random();
+        int english = random.nextInt(50)+10;
+        int swedish = random.nextInt(50)+5;
+        int tech = random.nextInt(100);
+        int social = random.nextInt(100);
+        player = new Player(20000, 40, english, tech, social, swedish);
+
+
         checker = new Checker();
         checker.player = player;
 
@@ -41,11 +48,24 @@ class Controller {
 
     }
 
+    public void addPoints(int points){
+        player.setPoints(player.getPoints()+points);
+    }
+
+    public void setGodPlayer(){
+        this.player = new Player(500000,100,300,800,800,300);
+        player.setTime(new Time(50, 5));
+        checker.player = player;
+    }
+
+    public void setPlayer(Player player) {
+        this.player = player;
+    }
 
 
 
     /**
-     * Get turns one down.
+     * Turn over.
      */
 
     public void substractTurn() {
@@ -53,6 +73,7 @@ class Controller {
         player.getTime().setTurns(player.getTime().getTurns() - 1);
         moraleBoost(player.getMoraleModifier());
         checker.turnChecker();
+
     }
 
     /**
@@ -78,6 +99,7 @@ class Controller {
         int addition = random.nextInt(5) + 5;
         player.setTechnicalEducation(player.getTechnicalEducation() + addition);
         substractTurn();
+        addPoints(2);
 
     }
 
@@ -89,6 +111,7 @@ class Controller {
         int addition = random.nextInt(6) + 5;
         player.setSocialEducation(player.getSocialEducation() + addition);
         substractTurn();
+        addPoints(2);
     }
 
 
@@ -97,25 +120,27 @@ class Controller {
     }
 
     /**
-     * Increases swedish skills 2-4
+     * Increases swedish skills 5-7
      */
 
     public void learnSwedish() {
-        int addition = random.nextInt(3) + 2;
+        int addition = random.nextInt(3) + 5;
         player.setSwedishLevel(player.getSwedishLevel() + addition);
         substractTurn();
+        addPoints(3);
 
     }
 
     /**
-     * Increases swedish skills 2-3
+     * Increases englisgh skills 4-5
      */
 
 
     public void learnEnglish() {
-        int addition = random.nextInt(2) + 2;
+        int addition = random.nextInt(2) + 4;
         player.setEnglishLevel(player.getEnglishLevel() + addition);
         substractTurn();
+        addPoints(1);
     }
 
     /**
@@ -126,7 +151,7 @@ class Controller {
         if (canIPayForIt(price)) {
             player.setMoney(player.getMoney() - price);
             substractTurn();
-            moraleBoost(2);
+            moraleBoost(3);
             if (iGetAnyFriends(15)) {
                 int index = random.nextInt(player.getNameList().personNames.size());
                 String friend = player.getNameList().personNames.get(index);
@@ -146,7 +171,8 @@ class Controller {
         if (canIPayForIt(price)) {
             player.setMoney(player.getMoney() - price);
             substractTurn();
-            moraleBoost(4);
+            moraleBoost(5);
+            addPoints(2);
             if (iGetAnyFriends(25)) {
                 int index = random.nextInt(player.getNameList().personNames.size());
                 String friend = player.getNameList().personNames.get(index);
@@ -165,7 +191,8 @@ class Controller {
         if (canIPayForIt(price)) {
             player.setMoney(player.getMoney() - price);
             substractTurn();
-            moraleBoost(7);
+            moraleBoost(8);
+            addPoints(4);
             if (iGetAnyFriends(35)) {
                 int index = random.nextInt(player.getNameList().personNames.size());
                 String friend = player.getNameList().personNames.get(index);
@@ -185,6 +212,7 @@ class Controller {
             player.setMoney(player.getMoney() - price);
             substractTurn();
             moraleBoost(10);
+            addPoints(6);
             if (iGetAnyFriends(50)) {
                 int index = random.nextInt(player.getNameList().personNames.size());
                 String friend = player.getNameList().personNames.get(index);
@@ -207,6 +235,7 @@ class Controller {
                 friendsList = friendsList + (y + 1) + "-" + candidate;
             }
             MainActivity.changeMainText(friendsList);
+
             return true;
         } else {
             MainActivity.changeMainText("You must have at least one friend, not be married and not dating anyone!");
@@ -247,6 +276,7 @@ class Controller {
             player.setDateName(name);
             player.removeFriend(index);
             substractTurn();
+            addPoints(4);
             return name;
         } else
             return null;
@@ -257,6 +287,8 @@ class Controller {
             return "no";
         else {
             player.setPartnerName(player.getDateName());
+            substractTurn();
+            addPoints(20);
             player.setDateName("no");
             return player.getPartnerName();
         }
@@ -282,6 +314,7 @@ class Controller {
                 }
                 else{
                     player.setNumberOfChildren(player.getNumberOfChildren() + 1);
+                    addPoints(5);
                     return 1;
                 }
             }
@@ -297,6 +330,7 @@ class Controller {
             if(canIPayForIt(2000)){
                 substractMoney(2000);
                 player.setFoodForMoths(1);
+                addPoints(1);
                 return "ok";
             }
             else
@@ -310,6 +344,8 @@ class Controller {
     public boolean buyTravelCard() {
         if(canIPayForIt(10000)){
             substractMoney(10000);
+            substractTurn();
+            addPoints(4);
             player.setTravelCardMonths(player.getTravelCardMonths()+6);
             return true;
         }
@@ -321,6 +357,8 @@ class Controller {
     public boolean buyFoodMembership() {
         if(canIPayForIt(30000)){
             substractMoney(30000);
+            substractTurn();
+            addPoints(4);
             player.setFoodForMoths(player.getFoodForMoths()+12);
             return true;
         }
@@ -331,6 +369,8 @@ class Controller {
     public boolean buyHobby() {
         if (canIPayForIt(2000)){
             substractMoney(2000);
+            substractTurn();
+            addPoints(2);
             moraleBoost(10);
             return true;
         }
@@ -400,6 +440,7 @@ class Controller {
     public boolean getJob1() {
         if (createdJob1.getRequiredTech()<=player.getTechnicalEducation() && createdJob1.getRequiredSocial()<=player.getSocialEducation() && createdJob1.getRequiredSwedish()<=player.getSwedishLevel() && createdJob1.getRequiredEnglish()<=player.getEnglishLevel()){
             player.setJob(createdJob1);
+            addPoints(10);
 
             return true;
         }
@@ -410,6 +451,7 @@ class Controller {
     public boolean getJob2() {
         if (createdJob2.getRequiredTech()<=player.getTechnicalEducation() && createdJob2.getRequiredSocial()<=player.getSocialEducation() && createdJob2.getRequiredSwedish()<=player.getSwedishLevel() && createdJob2.getRequiredEnglish()<=player.getEnglishLevel()){
             player.setJob(createdJob2);
+            addPoints(10);
 
             return true;
         }
@@ -420,6 +462,7 @@ class Controller {
     public boolean getJob3() {
         if (createdJob3.getRequiredTech()<=player.getTechnicalEducation() && createdJob3.getRequiredSocial()<=player.getSocialEducation() && createdJob3.getRequiredSwedish()<=player.getSwedishLevel() && createdJob3.getRequiredEnglish()<=player.getEnglishLevel()){
             player.setJob(createdJob3);
+            addPoints(10);
 
             return true;
         }
@@ -440,7 +483,8 @@ class Controller {
 
 
             int moraleM = House.moraleModifierCalc(6000, pay,false,false);
-            player.setHouse(new House(false, true, false, false, 1, 0, 0,  moraleM ));
+            player.setHouse(new House(false, true, false, false, 1, 6000, 0,  moraleM ));
+            addPoints(1);
             return true;
         }
         else
@@ -494,6 +538,7 @@ class Controller {
         rent = House.rentCalc(false, false, true,false, rooms);
         moralemodifier = House.moraleModifierCalc(rent, pay,false,false);
         player.setHouse(new House(false, false,true,false, rooms, rent, 0, moralemodifier));
+        addPoints(3);
         ArrayList<Integer> values = new ArrayList<>();
         values.add(rooms);
         values.add(rent);
@@ -544,7 +589,9 @@ class Controller {
         if (canIPayForIt(housesOnTheMarket.get(0).getDeposit())){
             substractMoney(housesOnTheMarket.get(0).getDeposit());
             player.setHouse(housesOnTheMarket.get(0));
+            addPoints(8);
             return true;
+
         }
         else
             return false;
@@ -556,6 +603,7 @@ class Controller {
         if (canIPayForIt(housesOnTheMarket.get(1).getDeposit())){
             substractMoney(housesOnTheMarket.get(1).getDeposit());
             player.setHouse(housesOnTheMarket.get(1));
+            addPoints(8);
             return true;
         }
         else
@@ -568,6 +616,8 @@ class Controller {
         if (canIPayForIt(housesOnTheMarket.get(2).getDeposit())){
             substractMoney(housesOnTheMarket.get(2).getDeposit());
             player.setHouse(housesOnTheMarket.get(2));
+            addPoints(8);
+
             return true;
         }
         else
@@ -582,5 +632,19 @@ class Controller {
 
 
 
+    public static void endGame(EndGame endgame){
+                String type = endgame.getType();
+                int points = endgame.getPoints();
+                int money = endgame.getMoney();
+                MainActivity.endGame(type, points, money);
+    }
 
+
+    public int hourlyJob() {
+        substractTurn();
+        addPoints(1);
+        int money = random.nextInt(2000) + 1500;
+        player.setMoney(player.getMoney() + money);
+        return money;
+    }
 }
