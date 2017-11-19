@@ -11,32 +11,31 @@ class Player {
 
     private int money;
     private int morale;
-
-
-     boolean isMarried;
-    private int numberOfChildren;
-    private Job job;
     private int technicalEducation;
     private int socialEducation;
-    private ArrayList<String> friends;
-    private int points;
-    private House house;
     private int swedishLevel;
     private int englishLevel;
-   // private String dating = null;
-    private int workingForMonths;
-    private Time time;
-    private ArrayList<String> achievements;
-    private NameList nameList;
 
+    boolean isMarried;
+    private int numberOfChildren;
     private String dateName = "no";
     private String partnerName = "no";
+
+    private Job job;
+    private House house;
+
+    private ArrayList<String> friends;
+
+    private int points;
+
+    private Time time;
+
+    private NameList nameList;
 
     private int turnNumber = 5;
 
     private int foodForMoths=0;
-    public int travelCardMonths;
-    private boolean isRentingRoom;
+    int travelCardMonths=0;
 
     private int moraleModifier;
 
@@ -46,7 +45,7 @@ class Player {
 
 
     public Player(int money, int morale, int englishLevel, int technicalEducation, int socialEducation, int swedishLevel) {
-        //super();
+
         this.setMoney(money);
         this.morale = morale;
 
@@ -57,13 +56,14 @@ class Player {
         this.socialEducation = socialEducation;
         friends = new ArrayList<String>();
         time = new Time(0, 5);
-        achievements = new ArrayList<String>();
+        //achievements = new ArrayList<String>();
         nameList = new NameList();
         travelCardMonths = 0;
         this.swedishLevel = swedishLevel;
         this.house = null;
         this.moraleModifier=-2;
     }
+
 
     /**
      * Getters and setters for the whole Player class
@@ -231,6 +231,8 @@ class Player {
     public NameList getNameList() {
         return nameList;
     }
+
+
 
     /**
      * Friends list methods.

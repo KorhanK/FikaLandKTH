@@ -12,8 +12,8 @@ class Checker{
 
     Random random;
     Player player;
-    Toast toast;
-    EndGame endgame;
+
+
 
 
 
@@ -26,6 +26,9 @@ class Checker{
 
     }
 
+    /**
+     * Monthly events
+     */
 
     public void turnChecker(){
         if(player.getTime().getTurns() == 0){
@@ -57,8 +60,7 @@ class Checker{
                 if (player.getFoodForMoths() == 0) {
                     player.setTurnModifier(-2);
                     player.getTime().setTurns(player.getTurnNumber() + player.getTurnModifier());
-                    //Toast.makeText(MainActivity.this, "You didn't eat last month so your turn number decreased.", Toast.LENGTH_LONG).show();
-                    //MainActivity.changeMainText("You didn't eat last month so your turn number decreased.");
+
                 } else {
                     player.setFoodForMoths(player.getFoodForMoths() - 1);
                     player.getTime().setTurns(player.getTurnNumber());
@@ -69,7 +71,7 @@ class Checker{
                     if (player.getMoney() < 0) {
                         player.setMoney(0);
                         player.setHouse(new House(true, false, false, false, 1, 500, 0, -1));
-                        //Toast toast = Toast.makeText(getApplicationContext(), "You have been moved out of your house, not enough money!", Toast.LENGTH_LONG).show();
+
                     }
                 } catch (Exception e) {
                     player.setHouse(new House(true, false, false, false, 1, 500, 0, -1));
@@ -90,7 +92,9 @@ class Checker{
 
         }
 
-
+        /**
+         * Negative morale END
+         */
         if (player.getMorale()<0){
             Controller.endGame(new EndGame("moraleDown", player.getPoints(), player.getMoney()));
         }

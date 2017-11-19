@@ -36,7 +36,7 @@ class EndGame {
         return money;
     }
 
-    public void setMoney(int money) {
+    public void setMoney(int money){
         this.money = money;
     }
 }

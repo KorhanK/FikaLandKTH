@@ -33,6 +33,10 @@ class House {
 
     }
 
+    /**
+     * Random rent calculator.
+     */
+
     public static int rentCalc(boolean isSocialRoom, boolean isRoom, boolean isRent, boolean isForSale, int room){
         int rent=0;
         if (isSocialRoom)
@@ -54,6 +58,11 @@ class House {
         return rent;
 
     }
+
+    /**
+     * aram room
+     * @return
+     */
 
     public static int depositCalc(int room){
         int deposit = (room*random.nextInt(50000)) + 200000;

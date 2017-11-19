@@ -1,8 +1,9 @@
 package com.example.tmp_sda_1138.fikalandkth;
 
-import java.text.DateFormatSymbols;
 import java.util.ArrayList;
 import java.util.Random;
+
+
 
 /**
  * Created by tmp-sda-1138 on 11/6/17.
@@ -19,13 +20,15 @@ class Controller {
     Job createdJob2;
     Job createdJob3;
 
-    House createdHouse1;
-    House createdHouse2;
-    House createdHouse3;
-
-    ArrayList<Job> jobsOffered;
+   ArrayList<Job> jobsOffered;
 
     ArrayList<House> housesOnTheMarket;
+
+    //JSONArray playerJson;
+
+    //MainActivity mainActivity;
+
+
 
 
 
@@ -46,11 +49,18 @@ class Controller {
         housesOnTheMarket = new ArrayList<>();
 
 
+
     }
+
+
 
     public void addPoints(int points){
         player.setPoints(player.getPoints()+points);
     }
+
+    /**
+     * Creates a player with high skills, money and morale
+     */
 
     public void setGodPlayer(){
         this.player = new Player(500000,100,300,800,800,300);
@@ -144,7 +154,7 @@ class Controller {
     }
 
     /**
-     * Art event interraction button. Adds morale boost and sometimes friends.
+     * Art event interaction button. Adds morale boost and sometimes a friend.
      */
     public void artClick() {
         int price = 0;
@@ -164,7 +174,7 @@ class Controller {
     }
 
     /**
-     * Concert event interraction button. Adds morale boost and sometimes friends.
+     * Concert event interaction button. Adds morale boost and sometimes a friend.
      */
     public void concertClick() {
         int price = 1000;
@@ -184,7 +194,7 @@ class Controller {
             MainActivity.changeMainText("You don't have enough money to pay for it.");
     }
     /**
-     * Pub interraction button. Adds morale boost and sometimes friends.
+     * Pub interaction button. Adds morale boost and sometimes a friend.
      */
     public void pubClick() {
         int price = 2500;
@@ -204,7 +214,7 @@ class Controller {
             MainActivity.changeMainText("You don't have enough money to pay for it.");
     }
     /**
-     * Dance club interraction button. Adds morale boost and sometimes friends.
+     * Dance club interaction button. Adds morale boost and sometimes a friend.
      */
     public void danceClick() {
         int price = 3000;
@@ -282,6 +292,10 @@ class Controller {
             return null;
     }
 
+    /**
+     * Let's the player get married with his/her date.
+     */
+
     public String getMarried() {
         if (player.getDateName().equals("no")||!player.getPartnerName().equals("no"))
             return "no";
@@ -297,6 +311,12 @@ class Controller {
 
     }
 
+    /**
+     * Checks if the player is married and adds random(0-3) children to the family.
+     * returns the number of children
+     *
+     */
+
     public int haveKids() {
         if (player.getPartnerName().equals("no")){
             return -1;
@@ -309,6 +329,7 @@ class Controller {
                 if(isOne == 1){
                     int howMany = this.random.nextInt(2) +2;
                     player.setNumberOfChildren(player.getNumberOfChildren() + howMany);
+                    addPoints(5);
                     return howMany;
 
                 }
@@ -324,6 +345,8 @@ class Controller {
 
         }
     }
+
+
 
     public String eat() {
         if(player.getFoodForMoths() == 0){
@@ -386,6 +409,10 @@ class Controller {
             return false;
     }
 
+    /**
+     * Creates 3 random jobs and their text info to pass them as an ArrayList to the caller.
+     */
+
     public ArrayList<String> createThreeJobs() {
         substractTurn();
         createdJob1 = createJob();
@@ -402,6 +429,10 @@ class Controller {
 
         return jobTexts;
     }
+
+    /**
+     *Creates random job and returns it.
+    */
 
     private Job createJob(){
 
@@ -437,6 +468,10 @@ class Controller {
 
     }
 
+    /**
+     * Different job application selection.
+     */
+
     public boolean getJob1() {
         if (createdJob1.getRequiredTech()<=player.getTechnicalEducation() && createdJob1.getRequiredSocial()<=player.getSocialEducation() && createdJob1.getRequiredSwedish()<=player.getSwedishLevel() && createdJob1.getRequiredEnglish()<=player.getEnglishLevel()){
             player.setJob(createdJob1);
@@ -470,6 +505,11 @@ class Controller {
             return false;
     }
 
+    /**
+     * House commands.
+     */
+
+    //Let's player rent a room if he has the money and doesn't have better.
 
     public boolean rentRoom() {
         if((player.getHouse() == null || player.getHouse().isSocialRoom) && canIPayForIt(6000)){
@@ -508,6 +548,7 @@ class Controller {
             return false;
     }
 
+    //Lets player rent a randomly generated flat.
 
     public ArrayList<Integer> rentFlat() {
         int rooms;
@@ -546,6 +587,8 @@ class Controller {
         return values;
 
     }
+
+    //House buying methods.
 
     public boolean canIbuyAHouse() {
         if(player.getJob() != null && canIPayForIt(200000))
@@ -631,7 +674,9 @@ class Controller {
     }
 
 
-
+    /**
+     * Game Ending Method.
+     */
     public static void endGame(EndGame endgame){
                 String type = endgame.getType();
                 int points = endgame.getPoints();
@@ -639,6 +684,9 @@ class Controller {
                 MainActivity.endGame(type, points, money);
     }
 
+    /**
+     * Hourly work method.
+     */
 
     public int hourlyJob() {
         substractTurn();
@@ -647,4 +695,152 @@ class Controller {
         player.setMoney(player.getMoney() + money);
         return money;
     }
+
+
+
+
+
+
+
+
+
+
+//
+//    public String readFullyAsString(InputStream inputStream, String encoding)
+//            throws IOException {
+//        return readFully(inputStream).toString(encoding);
+//    }
+//
+//    public byte[] readFullyAsBytes(InputStream inputStream)
+//            throws IOException {
+//        return readFully(inputStream).toByteArray();
+//    }
+//
+//    private ByteArrayOutputStream readFully(InputStream inputStream)
+//            throws IOException {
+//        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+//        byte[] buffer = new byte[1024];
+//        int length = 0;
+//        while ((length = inputStream.read(buffer)) != -1) {
+//            baos.write(buffer, 0, length);
+//        }
+//        return baos;
+//    }
+//
+//
+//
+//    public void process() throws JSONException {
+//        JSONObject playerJson = new JSONObject();
+//        playerJson.put("name", player.getName());
+//        playerJson.put("money", player.getMoney());
+//        playerJson.put("morale", player.getMorale());
+//        playerJson.put("months", player.getTime().getMonth());
+//        playerJson.put("turns", player.getTime().getTurns());
+//        playerJson.put("tech", player.getTechnicalEducation());
+//        playerJson.put("social", player.getSocialEducation());
+//        playerJson.put("english", player.getEnglishLevel());
+//        playerJson.put("swedish", player.getSwedishLevel());
+//        playerJson.put("dating", player.getDateName());
+//        playerJson.put("partner", player.getPartnerName());
+//        playerJson.put("kids", player.getNumberOfChildren());
+//        playerJson.put("moraleModifier", player.getMoraleModifier());
+//        playerJson.put("turnModifier", player.getTurnModifier());
+//        playerJson.put("foodForMonths", player.getFoodForMoths());
+//        playerJson.put("travelCardMonths", player.getTravelCardMonths());
+//        playerJson.put("points", player.getPoints());
+//
+//        JSONObject jobJson = new JSONObject();
+//
+//        try {
+//
+//            jobJson.put("type", player.getJob().getType());
+//            jobJson.put("salary", player.getJob().getPay());
+//        }
+//        catch(Exception e){
+//
+//            jobJson.put("type", "no");
+//            jobJson.put("salary", 0);
+//        }
+//
+//        playerJson.put("job", jobJson);
+//
+//        JSONObject houseJson = new JSONObject();
+//
+//        try{
+//            houseJson.put("isSocial", player.getHouse().isSocialRoom());
+//            houseJson.put("isRoom", player.getHouse().isRoom());
+//            houseJson.put("isRent", player.getHouse().isRent());
+//            houseJson.put("isForSale", player.getHouse().isForSale());
+//            houseJson.put("room", player.getHouse().getRoom());
+//            houseJson.put("rent", player.getHouse().getRent());
+//            houseJson.put("deposit", player.getHouse().getDeposit());
+//            houseJson.put("moraleModifier", player.getHouse().getMoraleModifier());
+//        }
+//        catch (Exception e){
+//            houseJson.put("rent", 0);
+//        }
+//
+//        playerJson.put("house", houseJson);
+//
+//        JSONObject friendsJson = new JSONObject();
+//
+//        try{
+//            int counter=1;
+//            for(String friend: player.getFriends()){
+//                friendsJson.put(String.valueOf(counter), friend);
+//                counter++;
+//            }
+//        }
+//        catch (Exception e){
+//            friendsJson.put("0", "no");
+//        }
+//
+//        playerJson.put("friends", friendsJson);
+//
+//
+//
+//
+//
+//        public void save() throws JSONException {
+//            String playerSave = playerJson.toString(2);
+//            FileOutputStream fos = null;
+//            try {
+//                fos = mainActivity.openFileOutput("mysave.json", Context.MODE_PRIVATE);
+//                fos.write(playerSave.getBytes());
+//                fos.close();
+//            } catch (FileNotFoundException e) {
+//                e.printStackTrace();
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//
+//        }
+//
+//    public  load() {
+//            JSONArray contentS;
+//        try {
+//            FileInputStream stream = mainActivity.openFileInput("mysave.json");
+//            String content = readFullyAsString(stream, "UTF-8");
+//            JSONObject obj = new JSONObject(content);
+//            player = new Player(content.getS)
+////            contentS = (JSONArray) new JSONTokener(content).nextValue();
+////            return contentS;
+//        } catch (FileNotFoundException e) {
+//            e.printStackTrace();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
+//
+//
+//
+//    }
+//
+//
+//
+//    public void setMainActivity(MainActivity mainActivity) {
+//        this.mainActivity = mainActivity;
+//    }
 }
+
