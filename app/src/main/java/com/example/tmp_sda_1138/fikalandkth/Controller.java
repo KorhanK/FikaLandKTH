@@ -616,7 +616,7 @@ class Controller {
             rent = House.rentCalc(false, false, false, true, rooms);
             moralemodifier = House.moraleModifierCalc(rent, player.getJob().getPay(), true, false);
             deposit = House.depositCalc(rooms);
-            housesOnTheMarket.add(new House(false, false, true, false, rooms, rent, deposit, moralemodifier));
+            housesOnTheMarket.add(new House(false, false, false, true, rooms, rent, deposit, moralemodifier));
         }
 
         ArrayList<String> houseTexts = new ArrayList<>();
