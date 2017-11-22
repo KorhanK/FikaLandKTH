@@ -1,6 +1,7 @@
 package com.example.tmp_sda_1138.fikalandkth;
 
-import android.opengl.Visibility;
+import android.content.Context;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -8,9 +9,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
-
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -18,25 +16,7 @@ public class MainActivity extends AppCompatActivity {
 
     Random random;
 
-//    Button educationButton;
-//    Button languageButton;
-//    Button jobButton;
-//    Button houseButton;
-//    Button socializeButton;
-//    Button otherButton;
-//    Button eatButton;
-      Button infoButton;
-
-//    String clickName;
-//
-//    EducationMenu educationMenu;
-//    LanguagesMenu languagesMenu;
-//    JobMenu jobsMenu;
-//    HousingMenu housingMenu;
-//    SocializeMenu socializeMenu;
-//    OtherMenu otherMenuO;
-//    BuyMenu buyingMenu;
-
+    Button infoButton;
 
     View mainMenu;
     View eduMenu;
@@ -52,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
     View searchJob;
     View houseSelection;
     View playerStatsPage;
+    static View endGame;
 
     String currentView;
 
@@ -74,6 +55,10 @@ public class MainActivity extends AppCompatActivity {
     TextView house2;
     TextView house3;
 
+    static TextView endReason;
+    TextView endPoints;
+    TextView endMoney;
+
     TextView nameF;
     TextView moneyF;
     TextView moraleF;
@@ -94,11 +79,8 @@ public class MainActivity extends AppCompatActivity {
     TextView moraleModifierF;
     TextView turnModifierF;
 
-
     EditText dateNumber;
     EditText nameText;
-
-
 
     Player player;
     Controller controller;
@@ -111,14 +93,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         random = new Random();
-//
-//        educationButton = (Button)findViewById(R.id.educationButton);
-//        languageButton = (Button) findViewById(R.id.languageButton);
-//        jobButton = (Button) findViewById(R.id.jobButton);
-//        houseButton = (Button) findViewById(R.id.housingButton);
-//        socializeButton = (Button) findViewById(R.id.socializeButton);
-//        otherButton = (Button) findViewById(R.id.otherButton);
-//        eatButton = (Button) findViewById(R.id.eatButton);
+
         infoButton = (Button) findViewById(R.id.infoButton);
 
         mainString = "What do you want to do?";
@@ -133,6 +108,7 @@ public class MainActivity extends AppCompatActivity {
         dateNumber = (EditText) findViewById(R.id.dateNumber);
 
         controller = new Controller();
+        //controller.setMainActivity(this);
         //player = controller.getPlayer();
 
         currentView = "main";
@@ -189,12 +165,15 @@ public class MainActivity extends AppCompatActivity {
         moraleModifierF = (TextView) findViewById(R.id.currentMonthlyMorakleModifierF);
         turnModifierF = (TextView) findViewById(R.id.turnModifierF);
 
-
-
+        endGame = findViewById(R.id.endGame);
+        endReason = (TextView) findViewById(R.id.endReason);
 
         updateTopView();
 
     }
+
+
+
 
     /**
      * Main and menu screens player stats updater
@@ -204,7 +183,7 @@ public class MainActivity extends AppCompatActivity {
         playerMonths.setText(controller.player.getTime().getMonth()+"");
         playerTurns.setText(controller.player.getTime().getTurns()+"");
         playerMorale.setText(controller.player.getMorale()+"");
-        playerPoints.setText(controller.player.getScore()+"");
+        playerPoints.setText(controller.player.getPoints()+"");
         technicalSkill.setText(controller.player.getTechnicalEducation()+"");
         socialSkill.setText(controller.player.getSocialEducation()+"");
         swedishSkill.setText(controller.player.getSwedishLevel()+"");
@@ -215,18 +194,23 @@ public class MainActivity extends AppCompatActivity {
 
     public void startGame(View view){
         if (nameText.getText().length()==0)
-            nameText.setError("Please enter a number!");
+            nameText.setError("Please enter your name!");
         else {
-            String name = nameText.getText().toString();
-            controller.player.setName(name);
-            nameScreen.setVisibility(View.INVISIBLE);
-            topSide.setVisibility(View.VISIBLE);
-            mainMenu.setVisibility(View.VISIBLE);
-            infoButton.setVisibility(View.VISIBLE);
-            updateTopView();
+
+            beginGame();
 
         }
 
+    }
+
+    public void beginGame(){
+        String name = nameText.getText().toString();
+        controller.player.setName(name);
+        nameScreen.setVisibility(View.INVISIBLE);
+        topSide.setVisibility(View.VISIBLE);
+        mainMenu.setVisibility(View.VISIBLE);
+        infoButton.setVisibility(View.VISIBLE);
+        updateTopView();
     }
 
 
@@ -437,6 +421,10 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Choosing a friend to start to date
+     */
+
     public void dateFinalClick(View view) {
         if (dateNumber.getText().length()==0)
             dateNumber.setError("Please enter a number!");
@@ -461,7 +449,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     /**
-     * Changes the main text bubble's text to @param
+     * Changes the main to @param
      * @param text
      */
 
@@ -627,6 +615,13 @@ public class MainActivity extends AppCompatActivity {
         jobMenu.setVisibility(View.VISIBLE);
         updateTopView();
     }
+
+    public void hourlyJobClick(View view){
+        int money = controller.hourlyJob();
+        changeMainText("You have earned " + String.valueOf(money) +"kr.");
+        updateTopView();
+    }
+
 /**
  * House Menu Clicks
  */
@@ -715,6 +710,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void sClicked(View view){
         playerStatsPage.setVisibility(View.VISIBLE);
+        infoButton.setVisibility(View.INVISIBLE);
         nameF.setText(nameF.getText() + controller.getPlayer().getName());
         moneyF.setText(moneyF.getText() + String.valueOf(controller.getPlayer().getMoney()));
         moraleF.setText(moraleF.getText() + String.valueOf(controller.getPlayer().getMorale()));
@@ -752,7 +748,7 @@ public class MainActivity extends AppCompatActivity {
         }
         try{
             if(controller.getPlayer().getHouse().isSocialRoom)
-                houseTypeF.setText(houseTypeF.getText() + "State payed room.");
+                houseTypeF.setText(houseTypeF.getText() + "Half State paid room.");
             else if (controller.getPlayer().getHouse().isRent()){
                 houseTypeF.setText(houseTypeF.getText() + "Rental house.");
             }
@@ -782,6 +778,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void backFromStats(View view){
         playerStatsPage.setVisibility(View.INVISIBLE);
+        infoButton.setVisibility(View.VISIBLE);
         nameF.setText("Name:");
         moneyF.setText("Money:");
         moraleF.setText("Morale:");
@@ -802,6 +799,41 @@ public class MainActivity extends AppCompatActivity {
         moraleModifierF.setText("Current Monthly Morale Modifier:");
         turnModifierF.setText("Current Turn Modifier:");
     }
+
+
+    /**
+     * END Game, restart, godMode clicks
+     */
+
+
+    public static void endGame(String type, int points, int money){
+        endGame.setVisibility(View.VISIBLE);
+        String text="No specific reason!";
+        if(type.equals("turnsOver")){
+            text = "You have been living in Sweden for 5 years now. You have in your bank account: " + money + "kr. In this game you scored " + points + " points. Replay and see if you can do better next time. GAME OVER!";
+        }
+        else if (type.equals("moraleDown")){
+            text = "You felt so bad that the state mental hospital offered you a place to wind off, it seems like it will take some years though. You have in your bank account: " + money + "kr. In this game you scored " + points + " points. Replay and see if you can do better next time. GAME OVER!";
+        }
+        endReason.setText(text);
+
+    }
+
+    public void restartGame(View view){
+        Intent i = getBaseContext().getPackageManager()
+                .getLaunchIntentForPackage( getBaseContext().getPackageName() );
+        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(i);
+    }
+
+
+    public void godMode(View view){
+
+        controller.setGodPlayer();
+        beginGame();
+    }
+
+
 
 }
 
